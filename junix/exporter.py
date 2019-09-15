@@ -4,7 +4,7 @@ import os
 
 
 def export_images(notebook_filepath,
-                  output_directory):
+                  output_directory=None):
 
     notebook_image_exporter = NotebookImageExporter(notebook_filepath,
                                                     output_directory)
