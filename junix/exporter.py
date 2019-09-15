@@ -3,11 +3,11 @@ import json
 import os
 
 
-def export_images(notebook_filepath,
-                  output_directory=None):
+def export_images(filepath,
+                  output_dir=None):
 
-    notebook_image_exporter = NotebookImageExporter(notebook_filepath,
-                                                    output_directory)
+    notebook_image_exporter = NotebookImageExporter(filepath,
+                                                    output_dir)
 
     notebook_image_exporter.save_images()
 
