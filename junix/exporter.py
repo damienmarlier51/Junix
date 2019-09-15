@@ -4,7 +4,7 @@ import os
 
 
 def export_images(notebook_filepath,
-                  output_directory):
+                  output_directory=None):
 
     notebook_image_exporter = NotebookImageExporter(notebook_filepath,
                                                     output_directory)
@@ -83,10 +83,7 @@ class NotebookImageExporter():
     def save_images(self):
 
         if self.output_directory is None:
-            output_directory = self.notebook_directory \
-                               + os.sep \
-                               + self.notebook_filename.replace(".ipynb", "") \
-                               + "_images"
+            output_directory = "."
         else:
             output_directory = self.output_directory
 
