@@ -3,6 +3,15 @@ import json
 import os
 
 
+def export_images(notebook_filepath,
+                  output_directory):
+
+    notebook_image_exporter = NotebookImageImporter(notebook_filepath,
+                                                    output_directory)
+
+    notebook_image_exporter.save_images()
+
+
 def has_image_key(data_output):
 
     return len([key for key in list(data_output.keys()) if "/" in key and key.split("/")[0] == "image"]) == 1
@@ -13,22 +22,27 @@ def get_image_key(data_output):
     return [key for key in list(data_output.keys()) if "/" in key and key.split("/")[0] == "image"][0]
 
 
+def convert_file_to_json(filepath):
+
+    with open(filepath, "r") as f:
+        contents = f.read()
+        f.close()
+
+    return json.loads(contents)
+
+
 class NotebookImageImporter():
 
-    def __init__(self, notebook_filepath=None):
+    def __init__(self,
+                 notebook_filepath=None,
+                 output_directory=None):
 
         self.notebook_filepath = notebook_filepath
+        self.output_directory = output_directory
+
         self.notebook_filename = notebook_filepath.split(os.sep)[-1]
         self.notebook_directory = os.sep.join(notebook_filepath.split(os.sep)[:-1]) if os.sep in notebook_filepath else "."
-        self.notebook_dict = self.get_notebook_as_dict()
-
-    def get_notebook_as_dict(self):
-
-        with open(self.notebook_filepath, "r") as f:
-            contents = f.read()
-            f.close()
-
-        return json.loads(contents)
+        self.notebook_dict = convert_file_to_json(notebook_filepath)
 
     def get_image_cell_paths(self):
 
@@ -66,12 +80,15 @@ class NotebookImageImporter():
 
         return images
 
-    def save_images(self, output_directory=None):
+    def save_images(self):
 
-        if output_directory is None:
+        if self.output_directory is None:
             output_directory = self.notebook_directory \
                                + os.sep \
-                               + self.notebook_filename.replace(".ipynb", "") + "_images"
+                               + self.notebook_filename.replace(".ipynb", "") \
+                               + "_images"
+        else:
+            output_directory = self.output_directory
 
         if os.path.exists(output_directory) is False:
             os.mkdir(output_directory)
@@ -80,10 +97,10 @@ class NotebookImageImporter():
 
         for image in images:
             img_data = base64.b64decode(image["content"])
-            filename = "{}_{}_{}.{}".format(self.notebook_filename.replace(".ipynb", ""),
-                                            image["cell_idx"],
-                                            image["output_idx"],
-                                            image["format"])
+            filename = "{}_cell_{}_output_{}.{}".format(self.notebook_filename.replace(".ipynb", ""),
+                                                        image["cell_idx"],
+                                                        image["output_idx"],
+                                                        image["format"])
             filepath = output_directory + os.sep + filename
             with open(filepath, 'wb') as f:
                 f.write(img_data)
