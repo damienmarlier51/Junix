@@ -6,7 +6,7 @@ import os
 def export_images(notebook_filepath,
                   output_directory):
 
-    notebook_image_exporter = NotebookImageImporter(notebook_filepath,
+    notebook_image_exporter = NotebookImageExporter(notebook_filepath,
                                                     output_directory)
 
     notebook_image_exporter.save_images()
@@ -31,7 +31,7 @@ def convert_file_to_json(filepath):
     return json.loads(contents)
 
 
-class NotebookImageImporter():
+class NotebookImageExporter():
 
     def __init__(self,
                  notebook_filepath=None,
