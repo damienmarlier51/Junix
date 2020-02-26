@@ -24,10 +24,10 @@ python setup.py install
 *-o* is an optional argument. If -o is not specified, output directory is current directory (pwd).<br/>
   
 ### From Python
-```import junix; junix.export_images(filepath, output_directory)```
+```import junix; junix.export_images(filepath, output_dir)```
 
 *filepath*: Notebook filepath<br/>
-*output_directory*: Directory where to output notebook images<br/>
+*output_dir*: Directory where to output notebook images<br/>
 
 ### Example
 
