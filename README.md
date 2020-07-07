@@ -1,7 +1,7 @@
 # Junix (JUpyter Notebook Image eXporter)
 
-Finding troublesome to export images from your notebook?<br/>
-Junix is a simple python package to export plots embed in a Jupyter Notebook.
+Finding it troublesome to export images from notebook?<br/>
+Junix is a simple python package to export plots within Jupyter Notebook.
 
 ## Installation
 
@@ -42,11 +42,6 @@ By running the following commands:
 2 image files will be generated in the same folder as the notebook file (see screenshot below): <br/>
 
 <img width="333" alt="Screenshot 2019-09-15 at 1 52 45 PM" src="https://user-images.githubusercontent.com/9989010/64917371-5fa84000-d7c2-11e9-9f65-e9a53fc7d781.png"> 
-
-## Resources
-
-## Authors
-Damien Marlier
 
 ## License
 This project is licensed under the MIT License
