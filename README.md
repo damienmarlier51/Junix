@@ -11,8 +11,7 @@ Junix is a simple python package to export plots within Jupyter Notebook.
 ### Using source code
 ```
 git clone https://github.com/damienmarlier51/JupyterNotebookImageExporter.git
-cd JupyterNotebookImageExporter
-python setup.py install
+cd JupyterNotebookImageExporter; python setup.py install
 ```
 
 ## Usage
