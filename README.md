@@ -17,7 +17,7 @@ cd JupyterNotebookImageExporter; python setup.py install
 ## Usage
 
 ### From command line
-```junix filepath -o output_dir```
+```junix <notebook_filepath> -o output_dir```
 
 *filepath*: Notebook filepath<br/>
 *-o* is an optional argument. If -o is not specified, output directory is current directory (pwd).<br/>
