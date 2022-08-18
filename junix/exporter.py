@@ -1,15 +1,20 @@
 import base64
 import json
 import os
+from tempfile import TemporaryDirectory
+import img2pdf
 
 
-def export_images(filepath,
-                  output_dir=None):
-
-    notebook_image_exporter = NotebookImageExporter(filepath,
-                                                    output_dir)
-
+def export_images(filepath, output_dir=None):
+    
+    notebook_image_exporter = NotebookImageExporter(filepath, output_dir)
     notebook_image_exporter.save_images()
+
+
+def export_pdf(filepath, output_pdf=None):
+    
+    notebook_image_exporter = NotebookImageExporter(filepath, None, output_pdf)
+    notebook_image_exporter.save_images()    
 
 
 def has_image_key(data_output):
@@ -33,12 +38,11 @@ def convert_file_to_json(filepath):
 
 class NotebookImageExporter():
 
-    def __init__(self,
-                 notebook_filepath=None,
-                 output_directory=None):
+    def __init__(self, notebook_filepath=None, output_directory=None, output_pdf=None):
 
         self.notebook_filepath = notebook_filepath
         self.output_directory = output_directory
+        self.output_pdf = output_pdf
 
         self.notebook_filename = notebook_filepath.split(os.sep)[-1]
         self.notebook_directory = os.sep.join(notebook_filepath.split(os.sep)[:-1]) if os.sep in notebook_filepath else "."
@@ -52,7 +56,9 @@ class NotebookImageExporter():
             if "outputs" not in cell:
                 continue
             indexed_data_outputs = [(output_idx, cell_output["data"]) for output_idx, cell_output in enumerate(cell["outputs"]) if "data" in cell_output]
-            cell_image_keys = [(indexed_data_output[0], get_image_key(indexed_data_output[1])) for indexed_data_output in indexed_data_outputs if has_image_key(indexed_data_output[1])]
+            cell_image_keys = [(indexed_data_output[0], 
+                                get_image_key(indexed_data_output[1])) for indexed_data_output in indexed_data_outputs 
+                                    if has_image_key(indexed_data_output[1])]
             if len(cell_image_keys) > 0:
                 image_paths[cell_idx] = cell_image_keys
 
@@ -82,7 +88,10 @@ class NotebookImageExporter():
 
     def save_images(self):
 
-        if self.output_directory is None:
+        if self.output_pdf is not None:
+            temp_dir = TemporaryDirectory('junix')
+            output_directory = temp_dir.name
+        elif self.output_directory is None:
             output_directory = "."
         else:
             output_directory = self.output_directory
@@ -91,6 +100,7 @@ class NotebookImageExporter():
             os.mkdir(output_directory)
 
         images = self.get_images()
+        image_paths = []
 
         for image in images:
             img_data = base64.b64decode(image["content"])
@@ -99,5 +109,15 @@ class NotebookImageExporter():
                                                         image["output_idx"],
                                                         image["format"])
             filepath = output_directory + os.sep + filename
+            image_paths.append(filepath)
             with open(filepath, 'wb') as f:
                 f.write(img_data)
+        
+        if self.output_pdf is not None:
+            self.save_pdf(image_paths)
+            temp_dir.cleanup()
+                
+    def save_pdf(self, image_paths):
+        
+        with open(self.output_pdf, "wb") as f:
+            f.write(img2pdf.convert(image_paths))

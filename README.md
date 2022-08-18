@@ -3,6 +3,8 @@
 Finding it troublesome to export images from notebook?<br/>
 Junix is a simple python package to export plots within Jupyter Notebook.
 
+Output formats include a directory of images or a PDF file (via [img2pdf](https://pypi.org/project/img2pdf/)).
+
 ## Installation
 
 ### Using pip
@@ -27,6 +29,13 @@ cd JupyterNotebookImageExporter; python setup.py install
 
 *filepath*: Notebook filepath<br/>
 *output_dir*: Directory where to output notebook images<br/>
+
+### Exporting PDFs
+```junix /path/to/notebook -p path/to/output.pdf```
+
+or from Python,
+
+```import junix; junix.export_pdf(filepath, output_pdf)```
 
 ### Example
 
