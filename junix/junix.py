@@ -4,29 +4,6 @@ import os
 from typing import Dict, List, Optional
 
 
-def has_image_key(data_output: Dict) -> bool:
-
-    return (
-        len(
-            [
-                key
-                for key in list(data_output.keys())
-                if "/" in key and key.split("/")[0] == "image"
-            ]
-        )
-        == 1
-    )
-
-
-def convert_file_to_json(filepath: str) -> Dict:
-
-    with open(filepath, "r") as f:
-        contents = f.read()
-        f.close()
-
-    return json.loads(contents)
-
-
 def get_images(notebook_dict: Dict) -> List[Dict]:
 
     return [
