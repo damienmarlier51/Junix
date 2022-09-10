@@ -1,1 +1,1 @@
-from .exporter import export_images
+from junix.junix import export_images  # noqa: F401
