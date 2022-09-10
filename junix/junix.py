@@ -1,7 +1,7 @@
 import base64
 import json
 import os
-from typing import Dict, Generator, List, Optional
+from typing import Dict, List, Optional
 
 
 def has_image_key(data_output: Dict) -> bool:
@@ -49,15 +49,15 @@ def get_image_from_cell_paths(notebook_dict: Dict, image_paths: Dict) -> List[Di
     return images
 
 
-def get_images(notebook_dict: Dict) -> Generator:
+def get_images(notebook_dict: Dict) -> List:
 
-    return (
+    return [
         (cell_idx, output_idx, content_type, decode_image_data(content))
         for cell_idx, cell in enumerate(notebook_dict.get("cells", ()))
         for output_idx, output in enumerate(cell.get("outputs", ()))
         for content_type, content in output.get("data", {}).items()
         if content_type.startswith("image/")
-    )
+    ]
 
 
 def decode_image_data(content):
