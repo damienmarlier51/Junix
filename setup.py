@@ -8,4 +8,7 @@ setup(
     description="Utils to export images from Jupyter notebook",
     packages=["junix"],
     entry_points={"console_scripts": ["junix = junix.cli:export_images"]},
+    install_requires=[
+        "click",
+    ],
 )
