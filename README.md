@@ -39,7 +39,7 @@ It will export images into folder ```example/example_images_1```.
 The command has already been pre-run in this repository to show what the output exports look like.
 
 You can test as well the CLI by running the following command from root directory:
-```junix -f example/example.ipynb -o example/example_images_2```
+```junix -f example/example.ipynb -o example/example_images_2 -p nb```
 
 It will export images into folder ```example/example_images_2```.
 The example has already been pre-run in this repository to show what the output exports look like.

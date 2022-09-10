@@ -1,7 +1,7 @@
 import base64
 import json
 import os
-from typing import Dict, List, Optional
+from typing import Dict, Generator, List, Optional
 
 
 def has_image_key(data_output: Dict) -> bool:
@@ -18,15 +18,6 @@ def has_image_key(data_output: Dict) -> bool:
     )
 
 
-def get_image_key(data_output: Dict) -> str:
-
-    return [
-        key
-        for key in list(data_output.keys())
-        if "/" in key and key.split("/")[0] == "image"
-    ][0]
-
-
 def convert_file_to_json(filepath: str) -> Dict:
 
     with open(filepath, "r") as f:
@@ -34,33 +25,6 @@ def convert_file_to_json(filepath: str) -> Dict:
         f.close()
 
     return json.loads(contents)
-
-
-def get_image_cell_paths(notebook_dict: Dict) -> Dict:
-
-    image_paths = {}
-
-    for cell_idx, cell in enumerate(notebook_dict["cells"]):
-
-        if "outputs" not in cell:
-            continue
-
-        indexed_data_outputs = [
-            (output_idx, cell_output["data"])
-            for output_idx, cell_output in enumerate(cell["outputs"])
-            if "data" in cell_output
-        ]
-
-        cell_image_keys = [
-            (indexed_data_output[0], get_image_key(indexed_data_output[1]))
-            for indexed_data_output in indexed_data_outputs
-            if has_image_key(indexed_data_output[1])
-        ]
-
-        if len(cell_image_keys) > 0:
-            image_paths[cell_idx] = cell_image_keys
-
-    return image_paths
 
 
 def get_image_from_cell_paths(notebook_dict: Dict, image_paths: Dict) -> List[Dict]:
@@ -85,20 +49,33 @@ def get_image_from_cell_paths(notebook_dict: Dict, image_paths: Dict) -> List[Di
     return images
 
 
-def get_images(notebook_dict: Dict) -> List[Dict]:
+def get_images(notebook_dict: Dict) -> Generator:
 
-    image_paths = get_image_cell_paths(notebook_dict=notebook_dict)
-    images = get_image_from_cell_paths(
-        notebook_dict=notebook_dict, image_paths=image_paths
+    return (
+        (cell_idx, output_idx, content_type, decode_image_data(content))
+        for cell_idx, cell in enumerate(notebook_dict.get("cells", ()))
+        for output_idx, output in enumerate(cell.get("outputs", ()))
+        for content_type, content in output.get("data", {}).items()
+        if content_type.startswith("image/")
     )
 
-    return images
+
+def decode_image_data(content):
+    if isinstance(content, list):
+        return "".join(content).encode("utf-8")
+    else:
+        return base64.b64decode(content)
 
 
-def export_images(filepath: str, output_dir: Optional[str] = None):
+def export_images(
+    filepath: str, output_dir: Optional[str] = None, prefix: Optional[str] = None
+):
 
-    notebook_filename = filepath.split(os.sep)[-1]
-    notebook_dict = convert_file_to_json(filepath=filepath)
+    with open(filepath, "r") as fr:
+        notebook_dict = json.load(fr)
+
+    if prefix is None:
+        prefix = os.path.basename(filepath).split(".")[0]
 
     if output_dir is None:
         output_dir = "."
@@ -108,17 +85,15 @@ def export_images(filepath: str, output_dir: Optional[str] = None):
 
     images = get_images(notebook_dict=notebook_dict)
 
-    for image in images:
+    for cell_idx, output_idx, content_type, image_data in images:
 
-        img_data = base64.b64decode(image["content"])
+        file_ext = content_type.split("/", 1)[1].split("+", 1)[0]
 
         filename = "{}_cell_{}_output_{}.{}".format(
-            notebook_filename.replace(".ipynb", ""),
-            image["cell_idx"],
-            image["output_idx"],
-            image["format"],
+            prefix, cell_idx, output_idx, file_ext
         )
 
         filepath = output_dir + os.sep + filename
-        with open(filepath, "wb") as f:
-            f.write(img_data)
+
+        with open(filepath, "wb") as fw:
+            fw.write(image_data)
