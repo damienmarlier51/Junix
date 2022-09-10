@@ -1,15 +1,17 @@
-from junix.exporter import export_images
-import argparse
+from typing import Optional
+
+import click
+
+from junix import junix
 
 
-def main():
+@click.command()
+@click.option("-f", "--filepath", "filepath", required=True)
+@click.option("-o", "--output_dir", "output_dir", default=None)
+def export_images(filepath: str, output_dir: Optional[str] = None):
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('filepath', type=str, help='Notebook filepath')
-    parser.add_argument('-o', '--output_dir', type=str, default=None, help='Directory where to export the images')
+    junix.export_images(filepath=filepath, output_dir=output_dir)
 
-    args = parser.parse_args()
-    notebook_filepath = args.filepath
-    output_directory = args.output_dir
 
-    export_images(notebook_filepath, output_directory)
+if __name__ == "__main__":
+    export_images()
