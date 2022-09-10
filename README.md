@@ -1,46 +1,52 @@
 # Junix (JUpyter Notebook Image eXporter)
 
-Finding it troublesome to export images from notebook?<br/>
-Junix is a simple python package to export plots within Jupyter Notebook.
+Junix is a simple python package to export images from a Jupyter Notebook.
 
 ## Installation
 
 ### Using pip
+
 ```pip install junix```
 
 ### Using source code
+
 ```
 git clone https://github.com/damienmarlier51/JupyterNotebookImageExporter.git
 cd JupyterNotebookImageExporter; python setup.py install
 ```
 
-## Usage
+## Getting started
 
 ### From command line
-```junix /path/to/notebook -o path/to/output/directory```
+
+```junix -f /path/to/notebook -o path/to/output/directory``` or ```junix --filepath /path/to/notebook --output_dir path/to/output/directory```
 
 *filepath*: Notebook filepath<br/>
 *-o* is an optional argument. If -o is not specified, output directory is current directory (pwd).<br/>
-  
-### From Python
-```import junix; junix.export_images(filepath, output_dir)```
 
-*filepath*: Notebook filepath<br/>
-*output_dir*: Directory where to output notebook images<br/>
+### From Python
+
+```import junix; junix.export_images(filepath=filepath, output_dir=output_dir)```
 
 ### Example
 
-Let's consider the following notebook ```example.ipynb```:
+One example can be found ```example/example.ipynb```.
 
-<img width="865" alt="Screenshot 2019-09-15 at 2 06 49 PM" src="https://user-images.githubusercontent.com/9989010/64917363-2cfe4780-d7c2-11e9-8174-ed2924d17e31.png">
+With that example, you can test the python API by running the following command from root directory:
+```python -m example.export_example```
 
-By running the following commands:
-- ```junix example.ipynb``` (with command line) <br/>
-- ```import junix; junix.export_images(filepath="example.ipynb")``` (within python terminal) <br/>
+It will export images into folder ```example/example_images_1```.
+The command has already been pre-run in this repository to show what the output exports look like.
 
-2 image files will be generated in the same folder as the notebook file (see screenshot below): <br/>
+You can test as well the CLI by running the following command from root directory:
+```junix -f example/example.ipynb -o example/example_images_2```
 
-<img width="333" alt="Screenshot 2019-09-15 at 1 52 45 PM" src="https://user-images.githubusercontent.com/9989010/64917371-5fa84000-d7c2-11e9-9f65-e9a53fc7d781.png"> 
+It will export images into folder ```example/example_images_2```.
+The example has already been pre-run in this repository to show what the output exports look like.
+
+## Test
+
+Run ```pytest``` from root directory.
 
 ## License
 This project is licensed under the MIT License
