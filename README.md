@@ -47,6 +47,3 @@ The example has already been pre-run in this repository to show what the output 
 ## Test
 
 Run ```pytest``` from root directory.
-
-## License
-This project is licensed under the MIT License
