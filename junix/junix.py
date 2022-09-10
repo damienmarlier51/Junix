@@ -27,32 +27,15 @@ def convert_file_to_json(filepath: str) -> Dict:
     return json.loads(contents)
 
 
-def get_image_from_cell_paths(notebook_dict: Dict, image_paths: Dict) -> List[Dict]:
-
-    images = []
-
-    for k, v in image_paths.items():
-
-        for indexed_image_key in v:
-
-            images.append(
-                {
-                    "cell_idx": k,
-                    "output_idx": indexed_image_key[0],
-                    "content": notebook_dict["cells"][k]["outputs"][
-                        indexed_image_key[0]
-                    ]["data"][indexed_image_key[1]],
-                    "format": indexed_image_key[1].split("/")[1],
-                }
-            )
-
-    return images
-
-
-def get_images(notebook_dict: Dict) -> List:
+def get_images(notebook_dict: Dict) -> List[Dict]:
 
     return [
-        (cell_idx, output_idx, content_type, decode_image_data(content))
+        {
+            "cell_idx": cell_idx,
+            "output_idx": output_idx,
+            "content_type": content_type,
+            "img_data": decode_img_data(content),
+        }
         for cell_idx, cell in enumerate(notebook_dict.get("cells", ()))
         for output_idx, output in enumerate(cell.get("outputs", ()))
         for content_type, content in output.get("data", {}).items()
@@ -60,7 +43,7 @@ def get_images(notebook_dict: Dict) -> List:
     ]
 
 
-def decode_image_data(content):
+def decode_img_data(content):
     if isinstance(content, list):
         return "".join(content).encode("utf-8")
     else:
@@ -85,15 +68,15 @@ def export_images(
 
     images = get_images(notebook_dict=notebook_dict)
 
-    for cell_idx, output_idx, content_type, image_data in images:
+    for image_dict in images:
 
-        file_ext = content_type.split("/", 1)[1].split("+", 1)[0]
+        file_ext = image_dict["content_type"].split("/", 1)[1].split("+", 1)[0]
 
         filename = "{}_cell_{}_output_{}.{}".format(
-            prefix, cell_idx, output_idx, file_ext
+            prefix, image_dict["cell_idx"], image_dict["output_idx"], file_ext
         )
 
         filepath = output_dir + os.sep + filename
 
         with open(filepath, "wb") as fw:
-            fw.write(image_data)
+            fw.write(image_dict["img_data"])
