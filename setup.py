@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="junix",
-    version="0.1.2",
+    version="0.1.3",
     author="Damien Marlier",
     author_email="damien.marlier@hotmail.fr",
     description="Utils to export images from Jupyter notebook",
