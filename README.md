@@ -2,6 +2,15 @@
 
 Junix is a simple python package to export images from a Jupyter Notebook.
 
+Given a notebook like the one below, Junix will export its images into separate files. 
+
+**Input**<br/>
+<img width="865" alt="Screenshot 2019-09-15 at 2 06 49 PM" src="https://user-images.githubusercontent.com/9989010/64917363-2cfe4780-d7c2-11e9-8174-ed2924d17e31.png">
+
+**Output**<br/>
+<img width="333" alt="Screenshot 2019-09-15 at 1 52 45 PM" src="https://user-images.githubusercontent.com/9989010/64917371-5fa84000-d7c2-11e9-9f65-e9a53fc7d781.png"> 
+
+
 ## Installation
 
 ### Using pip
@@ -32,18 +41,22 @@ cd JupyterNotebookImageExporter; python setup.py install
 
 One example can be found ```example/example.ipynb```.
 
-With that example, you can test the python API by running the following command from root directory:
+With that example, you can test the python API by running the following command from root directory:<br/>
 ```python -m example.export_example```
 
-It will export images into folder ```example/example_images_1```.
+It will export images into folder ```example/example_images_1```.<br/>
 The command has already been pre-run in this repository to show what the output exports look like.
 
-You can test as well the CLI by running the following command from root directory:
+You can test as well the CLI by running the following command from root directory:<br/>
 ```junix -f example/example.ipynb -o example/example_images_2 -p nb```
-
-It will export images into folder ```example/example_images_2```.
-The example has already been pre-run in this repository to show what the output exports look like.
 
 ## Test
 
-Run ```pytest``` from root directory.
+Run ```pytest``` from root directory
+
+## Reference
+
+Medium blog post: https://medium.com/analytics-vidhya/export-images-from-jupyter-notebook-with-a-single-command-422db2b66e92
+
+It will export images into folder ```example/example_images_2```.<br/>
+The example has already been pre-run in this repository to show what the output exports look like.
