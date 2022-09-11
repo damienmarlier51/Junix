@@ -4,7 +4,7 @@ import os
 from typing import Dict, List, Optional
 
 
-def get_images(notebook_dict: Dict) -> List[Dict]:
+def get_images_from_notebook_dict(notebook_dict: Dict) -> List[Dict]:
 
     return [
         {
@@ -55,6 +55,16 @@ def get_export_contents(images: List[Dict], prefix: str, output_dir: str) -> Dic
     return contents
 
 
+def get_images(filepath: str) -> List[Dict]:
+
+    with open(filepath, "r") as fr:
+        notebook_dict = json.load(fr)
+
+    images = get_images_from_notebook_dict(notebook_dict=notebook_dict)
+
+    return images
+
+
 def export_images(
     filepath: str, output_dir: Optional[str] = None, prefix: Optional[str] = None
 ) -> Dict:
@@ -68,7 +78,7 @@ def export_images(
     if output_dir is None:
         output_dir = "."
 
-    images = get_images(notebook_dict=notebook_dict)
+    images = get_images_from_notebook_dict(notebook_dict=notebook_dict)
     export_contents = get_export_contents(
         images=images, prefix=prefix, output_dir=output_dir
     )
