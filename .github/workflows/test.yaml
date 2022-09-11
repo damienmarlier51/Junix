@@ -1,4 +1,4 @@
-name: Run Python Tests
+name: pytest
 on:
   pull_request:
     branches:
@@ -23,5 +23,5 @@ jobs:
 
       - name: Run tests
         run: |
-          python setup.py develop
+          python setup.py install
           pytest
