@@ -2,13 +2,13 @@
 
 Junix is a simple python package to export images from a Jupyter Notebook.
 
-Given a notebook like the one below, Junix will export its images into separate files. 
+Given a notebook like the one below, Junix will export its images into separate files.
 
 **Input**<br/>
 <img width="865" alt="Screenshot 2019-09-15 at 2 06 49 PM" src="https://user-images.githubusercontent.com/9989010/64917363-2cfe4780-d7c2-11e9-8174-ed2924d17e31.png">
 
 **Output**<br/>
-<img width="333" alt="Screenshot 2019-09-15 at 1 52 45 PM" src="https://user-images.githubusercontent.com/9989010/64917371-5fa84000-d7c2-11e9-9f65-e9a53fc7d781.png"> 
+<img width="333" alt="Screenshot 2019-09-15 at 1 52 45 PM" src="https://user-images.githubusercontent.com/9989010/64917371-5fa84000-d7c2-11e9-9f65-e9a53fc7d781.png">
 
 
 ## Installation
@@ -28,10 +28,12 @@ cd JupyterNotebookImageExporter; python setup.py install
 
 ### From command line
 
-```junix -f /path/to/notebook -o path/to/output/directory``` or ```junix --filepath /path/to/notebook --output_dir path/to/output/directory```
+```junix --filepath /path/to/notebook --output_dir path/to/output/directory```
+```junix -f /path/to/notebook -o path/to/output/directory```
 
-*filepath*: Notebook filepath<br/>
-*-o* is an optional argument. If -o is not specified, output directory is current directory (pwd).<br/>
+**--filepath**: Notebook filepath<br/>
+**--output_dir** (Optional). Default value is current directory (pwd).<br/>
+**--prefix** (Optional). Default value is notebook filename.<br/>
 
 ### From Python
 
