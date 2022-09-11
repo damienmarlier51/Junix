@@ -40,13 +40,13 @@ cd JupyterNotebookImageExporter; python setup.py install
 
 ### From Python
 
-```import junix; junix.export_images(filepath=filepath, output_dir=output_dir)```
+```import junix; junix.export_images(filepath=filepath, output_dir=output_dir, prefix=prefix)```
 
 ### Example
 
-One example can be found ```example/example.ipynb```.
+Example can be found ```example/example.ipynb```.
 
-With that example, you can test the python API by running the following command from root directory:<br/>
+You can test the python API by running the following command from root directory:<br/>
 ```python -m example.export_example```
 
 It will export images into folder ```example/example_images_1```.<br/>
