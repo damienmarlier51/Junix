@@ -1,3 +1,6 @@
+![build](https://app.travis-ci.com/damienmarlier51/JupyterNotebookImageExporter.svg?branch=master)
+![pytest](https://github.com/damienmarlier51/JupyterNotebookImageExporter/actions/workflows/test.yaml/badge.svg)
+
 # Junix (JUpyter Notebook Image eXporter)
 
 Junix is a simple python package to export images from a Jupyter Notebook.
