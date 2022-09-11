@@ -50,10 +50,11 @@ You can test the python API by running the following command from root directory
 ```python -m example.export_example```
 
 It will export images into folder ```example/example_images_1```.<br/>
-The command has already been pre-run in this repository to show what the output exports look like.
 
 You can test as well the CLI by running the following command from root directory:<br/>
 ```junix -f example/example.ipynb -o example/example_images_2 -p nb```
+
+It will export images into folder ```example/example_images_2```.
 
 ## Test
 
@@ -62,6 +63,3 @@ Run ```pytest``` from root directory
 ## Reference
 
 Medium blog post: https://medium.com/analytics-vidhya/export-images-from-jupyter-notebook-with-a-single-command-422db2b66e92
-
-It will export images into folder ```example/example_images_2```.<br/>
-The example has already been pre-run in this repository to show what the output exports look like.
