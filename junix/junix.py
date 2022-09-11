@@ -31,6 +31,9 @@ def decode_img_data(content):
 def write_contents(contents: Dict):
 
     for filepath, content in contents.items():
+
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+
         with open(filepath, "wb") as fw:
             fw.write(content)
 
@@ -69,6 +72,7 @@ def export_images(
     export_contents = get_export_contents(
         images=images, prefix=prefix, output_dir=output_dir
     )
+
     write_contents(contents=export_contents)
 
     return export_contents
