@@ -1,3 +1,4 @@
+![pypi](https://badge.fury.io/py/Junix.svg)
 ![build](https://app.travis-ci.com/damienmarlier51/JupyterNotebookImageExporter.svg?branch=master)
 ![pytest](https://github.com/damienmarlier51/JupyterNotebookImageExporter/actions/workflows/test.yaml/badge.svg)
 
