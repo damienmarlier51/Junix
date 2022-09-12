@@ -37,6 +37,7 @@ cd JupyterNotebookImageExporter; python setup.py install
 ```junix.export_images(filepath=filepath, output_dir=output_dir, prefix=prefix)```
 
 Parameters:<br/>
+
 **filepath**: Notebook filepath<br/>
 **output_dir** (Optional): Default value is current directory (pwd)<br/>
 **prefix** (Optional): Default value is notebook filename<br/>
@@ -45,7 +46,8 @@ Parameters:<br/>
 
 ```images = junix.get_images(filepath=filepath)```
 
-Parameters:
+Parameters:<br/>
+
 **filepath**: Notebook filepath<br/>
 
 ```images``` will have the following schema:
